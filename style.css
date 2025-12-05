@@ -1,0 +1,809 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0f1012;
+  color: #f5f5f5;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 32px;
+  background: rgba(5, 5, 7, 0.96);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.main-nav a {
+  color: #d9d9d9;
+  text-decoration: none;
+  margin-left: 16px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.main-nav a:hover {
+  color: #ffffff;
+}
+
+main {
+  padding: 32px 32px 48px;
+}
+
+.section {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+}
+
+.section h1 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section p {
+  font-size: 14px;
+  color: #c2c2c2;
+  margin-bottom: 24px;
+  max-width: 680px;
+}
+
+.section-alt {
+  background: #13141a;
+  padding: 32px;
+  border-radius: 20px;
+}
+
+
+.party {
+  margin-bottom: 32px;
+}
+
+.party h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.party-item {
+  background: #181920;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.party-item img {
+  width: 100%;
+  display: block;
+}
+
+.caption {
+  font-size: 12px;
+  color: #aaa;
+  padding: 6px 8px 8px;
+}
+
+.tree-layout {
+  display: block;
+}
+
+.tree-image img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.tree-list h2 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.tree-list li {
+  margin-bottom: 6px;
+}
+
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 20px;
+}
+
+.map-card {
+  background: #15161d;
+  border-radius: 16px;
+  padding: 12px 12px 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.map-card h2 {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.map-card img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.map-caption {
+  font-size: 12px;
+  color: #b8b8b8;
+}
+
+.site-footer {
+  padding: 16px 32px 24px;
+  font-size: 12px;
+  color: #888;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.photomap-section {
+  margin: 3rem auto 4rem;
+  max-width: 1200px;
+  color: #f5f5f5;
+}
+
+.photomap-section h2 {
+  font-size: 1.55rem;
+  margin-bottom: 0.75rem;
+}
+
+.photomap-description {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 800px;
+  color: #cccccc;
+}
+
+.photomap-wrapper {
+  margin-top: 1.5rem;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #111111;
+  border: 1px solid #333333;
+  height: 500px;          /* можешь поменять высоту при желании */
+  position: relative;
+}
+
+.photomap-inner {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  transform-origin: 0 0;
+}
+
+.photomap-inner:active {
+  cursor: grabbing;
+}
+
+.photomap-inner img {
+  user-select: none;
+  -webkit-user-drag: none;
+  max-width: none;        /* важно для масштабирования */
+  display: block;
+}
+
+.photomap-hint {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #888888;
+}
+/* Party 15: force a 2×2 grid */
+.party-15 .party-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* exactly 2 items per row */
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .party-15 .party-grid {
+    grid-template-columns: 1fr; /* one item per row on small screens */
+  }
+}
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 9999;
+}
+
+.lightbox.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 32px;
+  font-size: 32px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+.lightbox-content {
+  text-align: center;
+  max-width: 90vw;
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: #fff;
+  font-size: 16px;
+  opacity: 0.9;
+  line-height: 1.4;
+  max-width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+}
+.phylo-tree {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  background: #050608;
+  color: #f5f5f5;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  overflow-x: auto;
+  white-space: pre; /* чтобы дерево не ломало структуру */
+}
+
+/* чтобы на маленьких экранах текст не был слишком мелким */
+@media (max-width: 768px) {
+  .phylo-tree {
+    font-size: 0.72rem;
+  }
+}
+.tree-diagram a {
+  color: #a8ffb5; /* неоново-пыльно-зелёный */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tree-diagram a:hover {
+  color: #d4ffd9;
+  text-shadow: 0 0 6px #b8ffcc;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+/* AI maps section */
+
+#ai-maps {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 1.4rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-description {
+  max-width: 720px;
+  margin: 0 auto 2rem auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+/* ВАЖНО: здесь ставим именно ai-maps-grid */
+.ai-maps-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 900px) {
+  .ai-maps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* и здесь — ai-map-card */
+.ai-map-card {
+  background: #121212;
+  border-radius: 18px;
+  border: 1px solid #2b2b2b;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ai-map-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ai-map-card h3 {
+  font-size: 0.95rem;
+  margin: 0.8rem 1.1rem 0.2rem;
+}
+
+.ai-map-card p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #c9c9c9;
+  margin: 0 1.1rem 1.1rem;
+}
+.section-header {
+  max-width: 900px;       /* или твоя нужная ширина */
+  margin: 0 auto 60px;    /* центрирование и отступ снизу */
+  text-align: left;       /* чтобы текст был левый, не центр */
+}
+
+.section-header h2 {
+  margin-bottom: 20px;
+}
+
+.section-header .section-subtitle {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.85;
+}
+/* LIGHTBOX — общая тёмная подложка */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* LIGHTBOX — сама картинка */
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+  object-fit: contain;
+}
+
+/* курсор на превью */
+.lightbox-trigger {
+  cursor: zoom-in;
+}
+.intro {
+  padding: 120px 0 80px 0;
+}
+
+.intro .container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.intro p {
+  margin-bottom: 20px;
+  line-height: 1.55;
+  color: #d8d8d8;
+}
+
+.intro-quote {
+  margin-top: 40px;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  color: #e0e0e0;
+}
+/* --- INTRO SECTION --- */
+
+.intro-section {
+  padding: 80px 0 60px;
+}
+
+.intro-title {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+.intro-section p {
+  max-width: 850px;
+  line-height: 1.55;
+  font-size: 16px;
+  margin-bottom: 18px;
+  color: #d5d5d5;
+}
+
+.intro-quote {
+  margin-top: 30px;
+  font-style: italic;
+  letter-spacing: 0.5px;
+  color: #ccc;
+}
+/* --- PROJECT TITLE HEADER --- */
+.project-title {
+  text-align: center;
+  padding: 120px 0 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.project-title h1 {
+  font-size: 3.4rem;
+  letter-spacing: 0.14rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+/* ===========================
+   ABOUT PROJECT — FINAL FIX
+   =========================== */
+
+/* --- ABOUT PROJECT SECTION --- */
+#about-project {
+  max-width: 820px;        /* можно оставить 820, если нравится более узкая колонка */
+  margin: 0;               /* убираем центрирование margin: 0 auto */
+  padding: 120px 0 160px;  /* вертикальные отступы, без боковых */
+  padding-left: 0vw;       /* тот же визуальный отступ слева, что и у ARCHIVE */
+  text-align: left;
+}
+
+#about-project h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
+}
+
+#about-project p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  color: #d0d0d0;
+}
+
+#about-project ul {
+  margin: 20px 0 40px 0;
+  padding-left: 22px;
+}
+
+#about-project li {
+  margin-bottom: 16px;
+  line-height: 1.6;
+  color: #d0d0d0;
+}
+/* ======= SOCIAL ICONS ======= */
+
+.site-footer {
+  padding: 28px 32px 34px;
+  font-size: 12px;
+  color: #888;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+  background: #0f1012;
+}
+
+.social-links {
+  margin-bottom: 10px;
+}
+
+.social-icon {
+  font-size: 20px;
+  color: #d0d0d0;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  color: #ffffff;
+  transform: scale(1.18);
+}
+
+/* Optional aesthetic tweaks for character icons */
+.email-icon { font-family: serif; font-size: 21px; }
+.telegram-icon { font-family: "JetBrains Mono", monospace; }
+.insta-icon { font-weight: 300; }
+.footer-note {
+  opacity: 0.55;
+  margin-top: 6px;
+  letter-spacing: 0.04em;
+}
+/* --- CONTACT FOOTER --- */
+
+.contact-footer {
+  padding: 60px 0 70px;
+  text-align: center;
+  background: #0f1012;
+  margin-top: 100px;
+}
+
+.footer-label {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #b9b9b9;
+  font-size: 13px;
+  margin-bottom: 22px;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+.contact-icon img {
+  width: 26px;
+  opacity: 0.78;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.contact-icon img:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.contact-note {
+  font-size: 12px;
+  color: #777;
+  opacity: 0.85;
+  letter-spacing: 0.4px;
+}
+.social-links {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.social-icon svg {
+  width: 22px;
+  height: 22px;
+  fill: #bbbbbb;
+  transition: fill 0.25s ease, transform 0.2s ease;
+}
+
+.social-icon:hover svg {
+  fill: #ffffff;
+  transform: scale(1.1);
+}
+/* --- LANGUAGE SWITCH --- */
+.lang-switch a {
+  font-size: 14px;
+  letter-spacing: 0.06rem;
+  color: #a5a5a5;              /* спокойный серо-стальной */
+  text-decoration: none;       /* без подчеркивания */
+  transition: color 0.3s ease;
+}
+
+.lang-switch a:hover {
+  color: #e3e3e3;              /* мягкое подсвечивание */
+}
+
+.lang-switch a.active {
+  color: #ffffff;              /* активный язык — чистый белый */
+  font-weight: 600;
+}
+
+.lang-switch span {
+  color: #777;                 /* символ / разделитель */
+  padding: 0 6px;
+  font-weight: 300;
+}
+/* --- DOCUMENTATION CALENDAR --- */
+
+#shooting-calendar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 0 120px;
+}
+
+#shooting-calendar h2 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+#shooting-calendar .calendar-intro {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #b8b8b8;
+  margin-bottom: 32px;
+}
+
+/* контейнер для всех лет */
+.calendar-years {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+/* блок одного года */
+.calendar-year {
+  background: #141414;
+  border-radius: 18px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+.calendar-year-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.calendar-year-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.calendar-year-caption {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #7a7a7a;
+}
+
+/* сетка месяцев */
+.calendar-months {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+/* карточка месяца */
+.calendar-month {
+  border-radius: 12px;
+  padding: 8px 8px 10px;
+  background: #101010;
+}
+
+.calendar-month-name {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #9a9a9a;
+  margin-bottom: 4px;
+}
+
+/* шапка дней недели */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.calendar-weekday {
+  font-size: 9px;
+  text-align: center;
+  color: #555;
+}
+
+/* сетка дней */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+/* обычный день */
+.calendar-day {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  color: #727272;
+  background: #151515;
+}
+
+/* пустые ячейки (до начала месяца) */
+.calendar-day.empty {
+  background: transparent;
+}
+
+/* день съёмки */
+.calendar-day.shot {
+  background: #f2b36a;
+  color: #0b0b0b;
+  font-weight: 600;
+}
+
+/* выделение непрерывного 29-дневного периода (сентябрь 2025) */
+.calendar-day.shot.sequence {
+  background: #ffdd9a;
+}
+
+/* подсказка-легенда */
+.calendar-legend {
+  margin-top: 16px;
+  font-size: 11px;
+  color: #808080;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.calendar-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #f2b36a;
+}
+
+.calendar-legend-swatch.sequence {
+  background: #ffdd9a;
+}
